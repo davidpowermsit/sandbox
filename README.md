@@ -1,11 +1,5 @@
 # sandbox
 
-[![Release](https://img.shields.io/github/v/release/davidpowermsit/sandbox)](https://img.shields.io/github/v/release/davidpowermsit/sandbox)
-[![Build status](https://img.shields.io/github/actions/workflow/status/davidpowermsit/sandbox/main.yml?branch=main)](https://github.com/davidpowermsit/sandbox/actions/workflows/main.yml?query=branch%3Amain)
-[![codecov](https://codecov.io/gh/davidpowermsit/sandbox/branch/main/graph/badge.svg)](https://codecov.io/gh/davidpowermsit/sandbox)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/davidpowermsit/sandbox)](https://img.shields.io/github/commit-activity/m/davidpowermsit/sandbox)
-[![License](https://img.shields.io/github/license/davidpowermsit/sandbox)](https://img.shields.io/github/license/davidpowermsit/sandbox)
-
 A place to write and test snippets of code
 
 - **Github repository**: <https://github.com/davidpowermsit/sandbox/>
@@ -66,4 +60,3 @@ To enable the code coverage reports, see [here](https://fpgmaas.github.io/cookie
 
 ---
 
-Repository initiated with [osprey-oss/cookiecutter-uv](https://github.com/osprey-oss/cookiecutter-uv).

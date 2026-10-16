@@ -7,7 +7,8 @@ def is_anagram(target: str, candidate: str) -> bool:
     # find lenght of both strings
     # if lenghts are not equil return false
     # if lenghts are equil proceed
-    if len(target) != len(candidate):
+    # check if words are identical
+    if len(target) != len(candidate) or target == candidate:
         return False
 
     # for each letter in the target word count its occurances and store in dict

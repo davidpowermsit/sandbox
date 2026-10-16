@@ -23,6 +23,9 @@ Homepage = "https://davidpowermsit.github.io/sandbox/"
 Repository = "https://github.com/davidpowermsit/sandbox"
 Documentation = "https://davidpowermsit.github.io/sandbox/"
 
+[project.scripts]
+anagrams = "sandbox.anagramprogram:main"
+
 [dependency-groups]
 dev = [
     "pytest>=9.0.2",

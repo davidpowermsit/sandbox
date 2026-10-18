@@ -1,3 +1,6 @@
+from collections import Counter
+
+
 def is_anagram(target: str, candidate: str) -> bool:
 
     # Ensure words are both lowercase
@@ -13,13 +16,8 @@ def is_anagram(target: str, candidate: str) -> bool:
 
     # for each letter in the target word count its occurances and store in dict
     # do this again for the candidate word
-    target_analysis: dict[str, int] = {}
-    for letter in target:
-        target_analysis[letter] = target.count(letter)
-
-    candidate_analysis: dict[str, int] = {}
-    for letter in candidate:
-        candidate_analysis[letter] = candidate.count(letter)
+    target_analysis = Counter(target)
+    candidate_analysis = Counter(candidate)
 
     # compare the two dicts
     # if they are equal then we found an anagram and we return True

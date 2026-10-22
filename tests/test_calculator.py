@@ -46,11 +46,11 @@ class TestCalculate:
     @pytest.mark.parametrize(
         ("test_calc", "expected_result"),
         [
-            ((10, "+", 10), (20, None)),
-            ((10, "-", 10), (0, None)),
-            ((10, "*", 10), (100, None)),
-            ((10, "/", 3), (3.3333333333333335, None)),
-            ((5, "~", 3), (1, 2)),
+            pytest.param((10, "+", 10), (20, None), id="addition"),
+            pytest.param((10, "-", 10), (0, None), id="subtraction"),
+            pytest.param((10, "*", 10), (100, None), id="multiplication"),
+            pytest.param((10, "/", 3), (3.3333333333333335, None), id="true_division"),
+            pytest.param((5, "~", 3), (1, 2), id="floor_division_with_remainder"),
         ],
     )
     def test_all_supported_calculations(

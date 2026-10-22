@@ -49,7 +49,7 @@ class TestCalculate:
             ((10, "+", 10), (20, None)),
             ((10, "-", 10), (0, None)),
             ((10, "*", 10), (100, None)),
-            ((10, "/", 3), (3.33, None)),
+            ((10, "/", 3), (3.3333333333333335, None)),
             ((5, "~", 3), (1, 2)),
         ],
     )
@@ -60,7 +60,7 @@ class TestCalculate:
         val1, op, val2 = test_calc
         expected_integer, expected_fractional = expected_result
 
-        integer, fractional = calculate(val1, val2, op)
+        result = calculate(val1, val2, op)
 
-        assert integer == expected_integer
-        assert fractional == expected_fractional
+        assert result.integer == expected_integer
+        assert result.fractional == expected_fractional

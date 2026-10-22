@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 OPERATORS = ["+", "-", "*", "/", "~"]
 
 
@@ -9,19 +11,31 @@ def parse_user_input(text: str) -> tuple[int, int, str]:
     raise ValueError(f"No operator found in {text!r}")
 
 
-def calculate(val1: int, val2: int, opp: str) -> tuple[int | float, int | None]:
+@dataclass(frozen=True)
+class Result:
+    integer: float
+    fractional: int | None = None
+
+    def __str__(self) -> str:
+        if self.fractional is None:
+            return f"The answer is {round(self.integer, 2)}"
+        else:
+            return f"The answer is {self.integer}, remainder {self.fractional}"
+
+
+def calculate(val1: int, val2: int, opp: str) -> Result:
 
     match opp:
         case "+":
-            return (val1 + val2, None)
+            return Result(val1 + val2, None)
         case "-":
-            return (val1 - val2, None)
+            return Result(val1 - val2, None)
         case "*":
-            return (val1 * val2, None)
+            return Result(val1 * val2, None)
         case "/":
-            return (round(val1 / val2, 2), None)
+            return Result(val1 / val2, None)
         case "~":
-            return (val1 // val2, val1 % val2)
+            return Result(val1 // val2, val1 % val2)
 
     raise ValueError("No Opperator found in calculation")
 
@@ -36,12 +50,9 @@ def main() -> None:
 
         val1, val2, opp = parse_user_input(user_input)
 
-        result, remainder = calculate(val1, val2, opp)
+        result = calculate(val1, val2, opp)
 
-        if remainder is None:
-            print(f"The answer is {result}")
-        else:
-            print(f"The answer is {result}, remainder {remainder}")
+        print(result)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 OPERATORS = ["+", "-", "*", "/", "~"]
 
 
-def find_operator(text: str) -> tuple[int, int, str]:
+def parse_user_input(text: str) -> tuple[int, int, str]:
     for op in OPERATORS:
         left, found, right = text.partition(op)
         if found:
@@ -9,9 +9,7 @@ def find_operator(text: str) -> tuple[int, int, str]:
     raise ValueError(f"No operator found in {text!r}")
 
 
-def calculate(text_input: str) -> tuple[int | float, int | None]:
-
-    val1, val2, opp = find_operator(text_input)
+def calculate(val1: int, val2: int, opp: str) -> tuple[int | float, int | None]:
 
     match opp:
         case "+":
@@ -31,14 +29,15 @@ def calculate(text_input: str) -> tuple[int | float, int | None]:
 def main() -> None:
     print("Welcome to the Python calculator!")
 
-    user_input: str
-
     times = int(input("How many calculations do you want to do? "))
 
     for _i in range(times):
         user_input = input("Enter a calculate: ")
 
-        result, remainder = calculate(user_input)
+        val1, val2, opp = parse_user_input(user_input)
+
+        result, remainder = calculate(val1, val2, opp)
+
         if remainder is None:
             print(f"The answer is {result}")
         else:

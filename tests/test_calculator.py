@@ -1,15 +1,15 @@
 import pytest
 
-from sandbox.calculator import calculate, find_operator
+from sandbox.calculator import calculate, parse_user_input
 
 
-class TestFindOperator:
+class TestParseUserInput:
     def test_extract_first_second_values_and_operator(self) -> None:
         expected_first = 10
         expected_second = 20
         expected_operator = "+"
 
-        actual_first, actual_second, actual_operator = find_operator(
+        actual_first, actual_second, actual_operator = parse_user_input(
             f"{expected_first}{expected_operator}{expected_second}"
         )
 
@@ -23,7 +23,7 @@ class TestFindOperator:
         expected_operator = ">"
 
         with pytest.raises(ValueError):
-            _, _, _ = find_operator(f"{expected_first}{expected_operator}{expected_second}")
+            _, _, _ = parse_user_input(f"{expected_first}{expected_operator}{expected_second}")
 
     @pytest.mark.parametrize(
         ("test_calc", "test_op"),
@@ -37,7 +37,7 @@ class TestFindOperator:
     )
     def test_finds_all_supported_operators(self, test_calc: str, test_op: str) -> None:
 
-        _, _, actual_operator = find_operator(test_calc)
+        _, _, actual_operator = parse_user_input(test_calc)
 
         assert actual_operator == test_op
 
@@ -46,16 +46,21 @@ class TestCalculate:
     @pytest.mark.parametrize(
         ("test_calc", "expected_result"),
         [
-            ("10+10", (20, None)),
-            ("10-10", (0, None)),
-            ("10*10", (100, None)),
-            ("10/3", (3.33, None)),
-            ("5~3", (1, 2)),
+            ((10, "+", 10), (20, None)),
+            ((10, "-", 10), (0, None)),
+            ((10, "*", 10), (100, None)),
+            ((10, "/", 3), (3.33, None)),
+            ((5, "~", 3), (1, 2)),
         ],
     )
-    def test_all_supported_calculations(self, test_calc: str, expected_result: str) -> None:
+    def test_all_supported_calculations(
+        self, test_calc: tuple[int, str, int], expected_result: tuple[int, int | None]
+    ) -> None:
 
-        integer, fractional = calculate(test_calc)
+        val1, op, val2 = test_calc
+        expected_integer, expected_fractional = expected_result
 
-        assert integer == expected_result[0]
-        assert fractional == expected_result[1]
+        integer, fractional = calculate(val1, val2, op)
+
+        assert integer == expected_integer
+        assert fractional == expected_fractional

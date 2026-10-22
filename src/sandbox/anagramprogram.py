@@ -1,19 +1,10 @@
-from pathlib import Path
-
 from sandbox.anagramfinder import is_anagram
-
-
-def load_dictonary() -> list[str]:
-    content = Path("words.txt").read_text(encoding="utf-8")
-    output: list[str] = []
-    for word in content.split("\n"):
-        output.append(word)
-    return output
+from sandbox.file_utility import load_dictonary
 
 
 def main() -> None:
     target = input("Please enter a word: ").strip()
-    words = load_dictonary()
+    words = load_dictonary("words.txt")
     collection: list[str] = []
     for word in words:
         if is_anagram(target, word):

@@ -1,6 +1,6 @@
 import pytest
 
-from sandbox.calculator import calculate, parse_user_input
+from sandbox.calculator import Result, calculate, main, parse_user_input
 
 
 class TestParseUserInput:
@@ -24,6 +24,28 @@ class TestParseUserInput:
 
         with pytest.raises(ValueError):
             _, _, _ = parse_user_input(f"{expected_first}{expected_operator}{expected_second}")
+
+    @pytest.mark.parametrize(
+        ("test_calc", "expected"),
+        [
+            pytest.param("-5+3", (-5, 3, "+"), id="negative_left_addition"),
+            pytest.param(
+                "-5-3",
+                (-5, 3, "-"),
+                id="negative_left_subtraction",
+                marks=pytest.mark.xfail(strict=True, reason="parser splits on the leading minus sign"),
+            ),
+            pytest.param(
+                "5*-3",
+                (5, -3, "*"),
+                id="negative_right_multiplication",
+                marks=pytest.mark.xfail(strict=True, reason="parser matches '-' before '*'"),
+            ),
+        ],
+    )
+    def test_handles_negative_operands(self, test_calc: str, expected: tuple[int, int, str]) -> None:
+
+        assert parse_user_input(test_calc) == expected
 
     @pytest.mark.parametrize(
         ("test_calc", "test_op"),
@@ -64,3 +86,31 @@ class TestCalculate:
 
         assert result.integer == expected_integer
         assert result.fractional == expected_fractional
+
+
+class TestResult:
+    @pytest.mark.parametrize(
+        ("result", "expected_text"),
+        [
+            pytest.param(Result(20), "The answer is 20", id="whole_number"),
+            pytest.param(Result(10 / 3), "The answer is 3.33", id="rounds_to_two_places"),
+            pytest.param(Result(1, 2), "The answer is 1, remainder 2", id="with_remainder"),
+        ],
+    )
+    def test_str_formats_answer(self, result: Result, expected_text: str) -> None:
+
+        assert str(result) == expected_text
+
+
+class TestMain:
+    def test_runs_requested_number_of_calculations(
+        self, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        inputs = iter(["2", "10+20", "5~3"])
+        monkeypatch.setattr("builtins.input", lambda _prompt: next(inputs))
+
+        main()
+
+        output = capsys.readouterr().out
+        assert "The answer is 30" in output
+        assert "The answer is 1, remainder 2" in output

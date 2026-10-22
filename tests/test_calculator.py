@@ -1,6 +1,6 @@
 import pytest
 
-from sandbox.calculator import find_operator
+from sandbox.calculator import calculate, find_operator
 
 
 class TestFindOperator:
@@ -40,3 +40,22 @@ class TestFindOperator:
         _, _, actual_operator = find_operator(test_calc)
 
         assert actual_operator == test_op
+
+
+class TestCalculate:
+    @pytest.mark.parametrize(
+        ("test_calc", "expected_result"),
+        [
+            ("10+10", (20, None)),
+            ("10-10", (0, None)),
+            ("10*10", (100, None)),
+            ("10/3", (3.33, None)),
+            ("5~3", (1, 2)),
+        ],
+    )
+    def test_all_supported_calculations(self, test_calc: str, expected_result: str) -> None:
+
+        integer, fractional = calculate(test_calc)
+
+        assert integer == expected_result[0]
+        assert fractional == expected_result[1]

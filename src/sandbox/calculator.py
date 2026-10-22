@@ -9,19 +9,19 @@ def find_operator(text: str) -> tuple[int, int, str]:
     raise ValueError(f"No operator found in {text!r}")
 
 
-def calculate(text_input: str) -> tuple[int, int]:
+def calculate(text_input: str) -> tuple[int | float, int | None]:
 
     val1, val2, opp = find_operator(text_input)
 
     match opp:
         case "+":
-            return (val1 + val2, 0)
+            return (val1 + val2, None)
         case "-":
-            return (val1 - val2, 0)
+            return (val1 - val2, None)
         case "*":
-            return (val1 * val2, 0)
+            return (val1 * val2, None)
         case "/":
-            return (val1 // val2, val1 % val2)
+            return (round(val1 / val2, 2), None)
         case "~":
             return (val1 // val2, val1 % val2)
 
@@ -31,23 +31,19 @@ def calculate(text_input: str) -> tuple[int, int]:
 def main() -> None:
     print("Welcome to the Python calculator!")
 
-    user_input = ""
-    times = 0
+    user_input: str
 
-    while True:
-        times = int(input("How many calculations do you want to do? "))
-        for _i in range(times):
-            user_input = input("Type Exit or Enter a calculate? ")
-            if user_input.lower() == "exit":
-                break
+    times = int(input("How many calculations do you want to do? "))
 
-            result, remainder = calculate(user_input)
-            if remainder != 0:
-                print(f"The answer is {result}")
-                print(f"The remainder is {remainder}")
-            else:
-                print(f"The answer is {result}")
+    for _i in range(times):
+        user_input = input("Enter a calculate: ")
+
+        result, remainder = calculate(user_input)
+        if remainder is None:
+            print(f"The answer is {result}")
+        else:
+            print(f"The answer is {result}, remainder {remainder}")
 
 
-if __name__ == "__name__":
+if __name__ == "__main__":
     main()

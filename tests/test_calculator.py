@@ -25,6 +25,17 @@ class TestParseUserInput:
         with pytest.raises(ValueError):
             _, _, _ = parse_user_input(f"{expected_first}{expected_operator}{expected_second}")
 
+    # Example of how to use pytest.mark to mark behaviour that is missing
+    # once implamented the test then fails and the mark can be removed
+    # making the test a regular regression test
+    #
+    # pytest.param(
+    #     "5*-3",
+    #     (5, -3, "*"),
+    #     id="negative_right_multiplication",
+    #     marks=pytest.mark.xfail(strict=True, reason="parser matches '-' before '*'"),
+    # ),
+
     @pytest.mark.parametrize(
         ("test_calc", "expected"),
         [

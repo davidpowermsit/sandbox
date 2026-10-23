@@ -4,10 +4,16 @@ OPERATORS = ["+", "-", "*", "/", "~"]
 
 
 def parse_user_input(text: str) -> tuple[int, int, str]:
-    for op in OPERATORS:
-        left, found, right = text.partition(op)
-        if found:
-            return int(left), int(right), op
+
+    # Step over each character in text
+    for i in range(len(text)):
+        # loop also the OPERATORS
+        for op in OPERATORS:
+            if text[i] == op and (i - 1) >= 0 and type(int(text[i - 1])) is int:
+                val1 = text[:i]
+                val2 = text[i + 1 :]
+                return int(val1), int(val2), op
+
     raise ValueError(f"No operator found in {text!r}")
 
 

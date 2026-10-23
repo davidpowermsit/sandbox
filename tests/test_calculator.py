@@ -29,23 +29,20 @@ class TestParseUserInput:
         ("test_calc", "expected"),
         [
             pytest.param("-5+3", (-5, 3, "+"), id="negative_left_addition"),
-            pytest.param(
-                "-5-3",
-                (-5, 3, "-"),
-                id="negative_left_subtraction",
-                marks=pytest.mark.xfail(strict=True, reason="parser splits on the leading minus sign"),
-            ),
-            pytest.param(
-                "5*-3",
-                (5, -3, "*"),
-                id="negative_right_multiplication",
-                marks=pytest.mark.xfail(strict=True, reason="parser matches '-' before '*'"),
-            ),
+            pytest.param("5+-3", (5, -3, "+"), id="negative_right_addition"),
+            pytest.param("-5-3", (-5, 3, "-"), id="negative_left_subtraction"),
+            pytest.param("5*-3", (5, -3, "*"), id="negative_right_multiplication"),
+            pytest.param("-5*-3", (-5, -3, "*"), id="negative_left_and_negative_right_multiplication"),
+            pytest.param("5--3", (5, -3, "-"), id="negative_right_subtraction"),
+            pytest.param("-5--3", (-5, -3, "-"), id="negative_left_and_negative_right_subtraction"),
         ],
     )
     def test_handles_negative_operands(self, test_calc: str, expected: tuple[int, int, str]) -> None:
-
         assert parse_user_input(test_calc) == expected
+
+    def test_raises_when_no_operator_found(self) -> None:
+        with pytest.raises(ValueError, match="No operator found"):
+            parse_user_input("53")
 
     @pytest.mark.parametrize(
         ("test_calc", "test_op"),

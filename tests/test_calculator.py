@@ -51,9 +51,13 @@ class TestParseUserInput:
     def test_handles_negative_operands(self, test_calc: str, expected: tuple[int, int, str]) -> None:
         assert parse_user_input(test_calc) == expected
 
-    def test_raises_when_no_operator_found(self) -> None:
+    @pytest.mark.parametrize(
+        ("test_input"),
+        ["53", "-5"],
+    )
+    def test_raises_when_no_operator_found(self, test_input: str) -> None:
         with pytest.raises(ValueError, match="No operator found"):
-            parse_user_input("53")
+            parse_user_input(test_input)
 
     @pytest.mark.parametrize(
         ("test_calc", "test_op"),

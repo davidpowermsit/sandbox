@@ -2,7 +2,7 @@ import datetime as dt
 
 import pytest
 
-from sandbox.scrapbook import all_or_nothing, average, grade_range, parse_timestamp, remove_ends, top_fruits
+from sandbox.scrapbook.scrapbook import all_or_nothing, average, grade_range, parse_timestamp, remove_ends, top_fruits
 
 
 class TestTopFruits:

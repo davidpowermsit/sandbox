@@ -1,6 +1,6 @@
 import pytest
 
-from sandbox.calculator import Result, calculate, main, parse_user_input
+from sandbox.calculator.calculator import Result, calculate, main, parse_user_input
 
 
 class TestParseUserInput:

@@ -5,6 +5,36 @@ A place to write and test snippets of code
 - **Github repository**: <https://github.com/davidpowermsit/sandbox/>
 - **Documentation** <https://davidpowermsit.github.io/sandbox/>
 
+## Projects
+
+The sandbox contains three independent projects, each in its own subpackage with a matching test folder:
+
+| Project      | Source                     | Tests               | Run with                  |
+| ------------ | -------------------------- | ------------------- | ------------------------- |
+| Anagram finder | `src/sandbox/anagram/`   | `tests/anagram/`    | `uv run anagrams`         |
+| Calculator   | `src/sandbox/calculator/`  | `tests/calculator/` | `uv run calculator`       |
+| Scrapbook    | `src/sandbox/scrapbook/`   | `tests/scrapbook/`  | (snippets, tests only)    |
+
+```text
+src/sandbox/
+├── anagram/
+│   ├── finder.py         # is_anagram()
+│   ├── file_utility.py   # load_dictonary()
+│   ├── program.py        # CLI entry point
+│   └── words.txt         # dictionary used by the CLI
+├── calculator/
+│   └── calculator.py
+└── scrapbook/
+    └── scrapbook.py
+tests/
+├── anagram/
+├── calculator/
+└── scrapbook/
+```
+
+To add a new project, create `src/sandbox/<name>/` (with an `__init__.py`) and `tests/<name>/`.
+Test file names must be unique across projects (e.g. `test_<name>.py`).
+
 ## Getting started with your project
 
 ### 1. Create a New Repository

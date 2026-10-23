@@ -1,10 +1,14 @@
-from sandbox.anagramfinder import is_anagram
-from sandbox.file_utility import load_dictonary
+from pathlib import Path
+
+from sandbox.anagram.file_utility import load_dictonary
+from sandbox.anagram.finder import is_anagram
+
+WORDS_FILE = Path(__file__).parent / "words.txt"
 
 
 def main() -> None:
     target = input("Please enter a word: ").strip()
-    words = load_dictonary("words.txt")
+    words = load_dictonary(WORDS_FILE)
     collection: list[str] = []
     for word in words:
         if is_anagram(target, word):

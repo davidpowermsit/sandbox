@@ -2,8 +2,8 @@ from textwrap import dedent
 
 import pytest
 
-from sandbox.anagramfinder import is_anagram
-from sandbox.anagramprogram import main
+from sandbox.anagram.finder import is_anagram
+from sandbox.anagram.program import main
 
 
 class TestIsAnagram:

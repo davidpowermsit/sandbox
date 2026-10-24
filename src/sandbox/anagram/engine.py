@@ -1,6 +1,10 @@
 from collections import Counter
 
 
+def find_anagram(target: str, candidate: str) -> bool:
+    return False
+
+
 def is_anagram(target: str, candidate: str) -> bool:
 
     # Ensure words are both lowercase

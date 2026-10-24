@@ -2,7 +2,7 @@ from textwrap import dedent
 
 import pytest
 
-from sandbox.anagram.finder import is_anagram
+from sandbox.anagram.engine import is_anagram
 from sandbox.anagram.program import main
 
 
@@ -29,12 +29,12 @@ class TestMain:
 
         expected = dedent(
             """\
-        These are the anagrams found for the word Stop
-        - opts
-        - post
-        - pots
-        - spot
-        - tops
+        These are the anagrams found for the word 'Stop'
+        - OPTS
+        - POST
+        - POTS
+        - SPOT
+        - TOPS
         """
         )
         inputs = iter(["Stop"])

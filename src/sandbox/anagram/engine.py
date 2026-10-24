@@ -19,29 +19,5 @@ def find_anagram(name: str, word_list: list[str]) -> list[str]:
     return anagrams
 
 
-def is_anagram(target: str, candidate: str) -> bool:
-
-    # Ensure words are both lowercase
-    target = target.lower()
-    candidate = candidate.lower()
-
-    # find lenght of both strings
-    # if lenghts are not equil return false
-    # if lenghts are equil proceed
-    # check if words are identical
-    if len(target) != len(candidate) or target == candidate:
-        return False
-
-    # for each letter in the target word count its occurances and store in dict
-    # do this again for the candidate word
-    target_analysis = Counter(target)
-    candidate_analysis = Counter(candidate)
-
-    # compare the two dicts
-    # if they are equal then we found an anagram and we return True
-    # else we return False
-    return target_analysis == candidate_analysis
-
-
 if __name__ == "__main__":
     pass

@@ -2,9 +2,6 @@
 
 A place to write and test snippets of code
 
-- **Github repository**: <https://github.com/davidpowermsit/sandbox/>
-- **Documentation** <https://davidpowermsit.github.io/sandbox/>
-
 ## Projects
 
 The sandbox contains three independent projects, each in its own subpackage with a matching test folder:
@@ -18,14 +15,8 @@ The sandbox contains three independent projects, each in its own subpackage with
 ```text
 src/sandbox/
 ├── anagram/
-│   ├── finder.py         # is_anagram()
-│   ├── file_utility.py   # load_dictonary()
-│   ├── program.py        # CLI entry point
-│   └── words.txt         # dictionary used by the CLI
 ├── calculator/
-│   └── calculator.py
 └── scrapbook/
-    └── scrapbook.py
 tests/
 ├── anagram/
 ├── calculator/
@@ -83,9 +74,3 @@ The CI/CD pipeline will be triggered when you open a pull request, merge to main
 To finalize the set-up for publishing to PyPI, see [here](https://fpgmaas.github.io/cookiecutter-uv/features/publishing/#set-up-for-pypi).
 For activating the automatic documentation with MkDocs/Zensical, see [here](https://fpgmaas.github.io/cookiecutter-uv/features/docs_tool/#deploying-to-github-pages).
 To enable the code coverage reports, see [here](https://fpgmaas.github.io/cookiecutter-uv/features/codecov/).
-
-## Releasing a new version
-
-
-
----

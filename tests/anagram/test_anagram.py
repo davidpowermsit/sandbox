@@ -27,20 +27,34 @@ class TestMain:
         self, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
     ) -> None:
 
-        expected = dedent(
+        words = dedent(
             """\
-        These are the anagrams found for the word 'Stop'
-        - OPTS
-        - POST
-        - POTS
-        - SPOT
-        - TOPS
-        """
+
+            op
+            ops
+            opt
+            opts
+            os
+            post
+            pot
+            pots
+            pst
+            so
+            sop
+            sot
+            spot
+            stop
+            to
+            top
+            tops
+            """
         )
-        inputs = iter(["Stop"])
+        expected = words + "\nFinal Anagram Phrase: \n\n"
+        inputs = iter(["Stop", "tops", "n"])
         monkeypatch.setattr("builtins.input", lambda _prompt: next(inputs))
 
-        main()
+        with pytest.raises(SystemExit):
+            main()
 
         output = capsys.readouterr().out
         assert output == expected

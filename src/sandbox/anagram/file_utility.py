@@ -1,11 +1,10 @@
 from pathlib import Path
 
 
-def load_dictonary(file: str | Path) -> set[str]:
+def load_dictonary(file: str | Path) -> list[str]:
     content = Path(file).read_text(encoding="utf-8")
-    output: set[str] = set()
+    output: list[str] = []
     for word in content.split("\n"):
-        output.add(word)
+        output.append(word.lower())
 
-    output.update({"a", "i"})
-    return output
+    return sorted(output)

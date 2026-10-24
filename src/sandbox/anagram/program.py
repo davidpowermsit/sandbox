@@ -1,46 +1,70 @@
+import sys
 from pathlib import Path
 
-from sandbox.anagram.engine import is_anagram
+from sandbox.anagram.engine import find_anagram
 from sandbox.anagram.file_utility import load_dictonary
-
-WORDS_FILE = Path(__file__).parent / "words.txt"
-
-# Load a dictionary file
-# Accept a name from user
-# Set limit = length of name
-# Start empty list to hold anagram phrase
-# While length of phrase < limit:
-#     Generate list of dictionary words that fit in name
-#     Present words to user
-#     Present remaining letters to user
-#     Present current phrase to user
-#     Ask user to input word or start over
-#     If user input can be made from remaining letters:
-#         Accept choice of new word or words from user
-#         Remove letters in choice from letters in name
-#         Return choice and remaining letters in name
-#     If choice is not a valid selection:
-#         Ask user for new choice or let user start over
-#     Add choice to phrase and show to user
-#     Generate new list of words and repeat process
-# When phrase length equals limit value:
-#     Display final phrase
-#     Ask user to start over or to exit
 
 
 def main() -> None:
-    target = input("Please enter a word: ").strip()
-    words = load_dictonary(WORDS_FILE)
-    collection: list[str] = []
-    for word in words:
-        if is_anagram(target, word):
-            collection.append(word)
-    if collection:
-        print(f"These are the anagrams found for the word '{target}'")
-        for item in sorted(collection):
-            print(f"- {item}")
-    else:
-        print(f"These are no anagrams found for the word '{target}'")
+    WORDS_FILE = Path(__file__).parent / "words.txt"
+    WORDS = load_dictonary(WORDS_FILE)
+
+    running = True
+
+    ini_name = input("Please enter your full name: ")
+    name = "".join(ini_name.lower().split())
+    name = name.replace("-", "")
+    limit = len(name)
+    phrase: str = ""
+
+    # Program loop
+    while running:
+        temp_prase = phrase.replace(" ", "")
+        if len(temp_prase) < limit:
+            if len(temp_prase) > 0:
+                print(f"Lenght of anagram phrase: {len(temp_prase)}")
+
+            find_anagram(name, WORDS)
+
+            if len(temp_prase) > 0:
+                print("Current anagram phrase is: ")
+                print(phrase, file=sys.stderr)
+
+            choice, name = process_choice(name)
+            phrase += choice + " "
+
+        elif len(temp_prase) == limit:
+            print("\nFinal Anagram Phrase: ")
+            print(phrase, file=sys.stderr)
+            print()
+            try_again = input("Try again? (Press Enter else 'n' to quit.)\n")
+            if try_again.lower() == "n":
+                running = False
+                sys.exit()
+            else:
+                main()
+
+
+def process_choice(name: str) -> tuple[str, str]:
+    while True:
+        choice = input("\nMake a choice else Enter to start over or # to end: ")
+        if choice == "":
+            main()
+        elif choice == "#":
+            sys.exit()
+        else:
+            candidate = "".join(choice.lower().split())
+            left_over_list = list(name)
+            for letter in candidate:
+                if letter in left_over_list:
+                    left_over_list.remove(letter)
+            if len(name) - len(left_over_list) == len(candidate):
+                break
+            else:
+                print("Will not work. Choose valid word from list.", file=sys.stderr)
+
+    name = "".join(left_over_list)
+    return choice, name
 
 
 if __name__ == "__main__":

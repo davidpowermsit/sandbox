@@ -14,7 +14,6 @@ def find_anagram(name: str, word_list: list[str]) -> list[str]:
                 test += letter
         if Counter(test) == word_map:
             anagrams.append(word)
-    print(*anagrams, sep="\n")
 
     return anagrams
 

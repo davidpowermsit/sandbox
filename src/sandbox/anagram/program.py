@@ -24,20 +24,20 @@ def main() -> None:
             if len(temp_prase) > 0:
                 print(f"Lenght of anagram phrase: {len(temp_prase)}")
 
-            find_anagram(name, WORDS)
+            anagrams = find_anagram(name, WORDS)
+            display_anagram_information(name, anagrams)
 
             if len(temp_prase) > 0:
-                print("Current anagram phrase is: ")
-                print(phrase, file=sys.stderr)
+                print(f"Current anagram phrase is: {phrase}")
 
             choice, name = process_choice(name)
             phrase += choice + " "
 
         elif len(temp_prase) == limit:
-            print("\nFinal Anagram Phrase: ")
+            print("Final Anagram Phrase: ")
             print(phrase, file=sys.stderr)
             print()
-            try_again = input("Try again? (Press Enter else 'n' to quit.)\n")
+            try_again = input("Try again? (Press Enter else 'n' to quit.): ")
             if try_again.lower() == "n":
                 running = False
                 sys.exit()
@@ -47,7 +47,7 @@ def main() -> None:
 
 def process_choice(name: str) -> tuple[str, str]:
     while True:
-        choice = input("\nMake a choice else Enter to start over or # to end: ")
+        choice = input("Make a choice else Enter to start over or # to end: ")
         if choice == "":
             main()
         elif choice == "#":
@@ -61,10 +61,18 @@ def process_choice(name: str) -> tuple[str, str]:
             if len(name) - len(left_over_list) == len(candidate):
                 break
             else:
-                print("Will not work. Choose valid word from list.", file=sys.stderr)
+                print("That choice will not work. Choose valid word from list.")
 
     name = "".join(left_over_list)
     return choice, name
+
+
+def display_anagram_information(name: str, anagrams: list[str]) -> None:
+    print(*anagrams, sep="\n")
+    print()
+    print(f"Remaining letters: {name}")
+    print(f"No of remaining letters: {len(name)}")
+    print(f"No of remaining letters (real world) anagrams: {len(anagrams)}")
 
 
 if __name__ == "__main__":

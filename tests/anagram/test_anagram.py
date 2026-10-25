@@ -10,29 +10,35 @@ class TestMain:
         self, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
     ) -> None:
 
-        words = dedent(
-            """\
+        expected = (
+            dedent(
+                """\
+            - op
+            - ops
+            - opt
+            - opts
+            - os
+            - post
+            - pot
+            - pots
+            - pst
+            - so
+            - sop
+            - sot
+            - spot
+            - stop
+            - to
+            - top
+            - tops
 
-            op
-            ops
-            opt
-            opts
-            os
-            post
-            pot
-            pots
-            pst
-            so
-            sop
-            sot
-            spot
-            stop
-            to
-            top
-            tops
+            Remaining letters: stop
+            No of remaining letters: 4
+            No of remaining letters (real world) anagrams: 17
             """
+            )
+            + "Final Anagram Phrase: \n\n"
         )
-        expected = words + "\nFinal Anagram Phrase: \n\n"
+
         inputs = iter(["Stop", "tops", "n"])
         monkeypatch.setattr("builtins.input", lambda _prompt: next(inputs))
 

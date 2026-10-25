@@ -1,7 +1,7 @@
 from collections import Counter
 
 
-def find_anagram(name: str, word_list: list[str]) -> list[str]:
+def find_anagram(name: str, word_list: list[str]) -> None:
     """Read name and word_list and dispaly all anagrams in name"""
     name_map = Counter(name)
     anagrams: list[str] = []
@@ -15,7 +15,12 @@ def find_anagram(name: str, word_list: list[str]) -> list[str]:
         if Counter(test) == word_map:
             anagrams.append(word)
 
-    return anagrams
+    for anagram in anagrams:
+        print(f"- {anagram}")
+    print()
+    print(f"Remaining letters: {name}")
+    print(f"No of remaining letters: {len(name)}")
+    print(f"No of remaining letters (real world) anagrams: {len(anagrams)}")
 
 
 if __name__ == "__main__":

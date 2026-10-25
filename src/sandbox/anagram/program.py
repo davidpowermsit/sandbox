@@ -2,12 +2,12 @@ import sys
 from pathlib import Path
 
 from sandbox.anagram.engine import find_anagram
-from sandbox.anagram.file_utility import load_dictonary
+from sandbox.anagram.file_utility import load_dictionary
 
 
 def main() -> None:
     WORDS_FILE = Path(__file__).parent / "words.txt"
-    WORDS = load_dictonary(WORDS_FILE)
+    WORDS = load_dictionary(WORDS_FILE)
 
     running = True
 
@@ -20,12 +20,13 @@ def main() -> None:
     # Program loop
     while running:
         temp_prase = phrase.replace(" ", "")
-        if len(temp_prase) < limit:
-            if len(temp_prase) > 0:
-                print(f"Lenght of anagram phrase: {len(temp_prase)}")
+        tp_len = len(temp_prase)
 
-            anagrams = find_anagram(name, WORDS)
-            display_anagram_information(name, anagrams)
+        if tp_len < limit:
+            if tp_len > 0:
+                print(f"Lenght of anagram phrase: {tp_len}")
+
+            find_anagram(name, WORDS)
 
             if len(temp_prase) > 0:
                 print(f"Current anagram phrase is: {phrase}")
@@ -65,14 +66,6 @@ def process_choice(name: str) -> tuple[str, str]:
 
     name = "".join(left_over_list)
     return choice, name
-
-
-def display_anagram_information(name: str, anagrams: list[str]) -> None:
-    print(*anagrams, sep="\n")
-    print()
-    print(f"Remaining letters: {name}")
-    print(f"No of remaining letters: {len(name)}")
-    print(f"No of remaining letters (real world) anagrams: {len(anagrams)}")
 
 
 if __name__ == "__main__":

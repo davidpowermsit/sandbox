@@ -28,6 +28,16 @@ clean-build: ## Clean build artifacts
 	@echo "🚀 Removing build artifacts"
 	@uv run python -c "import shutil; import os; shutil.rmtree('dist') if os.path.exists('dist') else None"
 
+PROFILE_MODULE_anagram    = sandbox.anagram.program
+PROFILE_MODULE_calculator = sandbox.calculator.calculator
+
+.PHONY: profile
+profile: ## Profile a target under Python 3.15: make profile TARGET=anagram|calculator
+	@test -n "$(PROFILE_MODULE_$(TARGET))" || { echo "Usage: make profile TARGET=anagram|calculator"; exit 1; }
+	UV_PROJECT_ENVIRONMENT=.venv-315 uv run --python 3.15 \
+	  python -m profiling.sampling run --flamegraph -o profile-$(TARGET).html \
+	  -m $(PROFILE_MODULE_$(TARGET)) $(ARGS)
+
 .PHONY: help
 help:
 	@uv run python -c "import re; \

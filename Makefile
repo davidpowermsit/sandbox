@@ -35,7 +35,7 @@ PROFILE_MODULE_calculator = sandbox.calculator.calculator
 profile: ## Profile a target under Python 3.15: make profile TARGET=anagram|calculator
 	@test -n "$(PROFILE_MODULE_$(TARGET))" || { echo "Usage: make profile TARGET=anagram|calculator"; exit 1; }
 	UV_PROJECT_ENVIRONMENT=.venv-315 uv run --python 3.15 \
-	  python -m profiling.sampling run --flamegraph -o profile-$(TARGET).html \
+	  python -m profiling.sampling run --mode=cpu --flamegraph -o profile-$(TARGET).html \
 	  -m $(PROFILE_MODULE_$(TARGET)) $(ARGS)
 
 .PHONY: help

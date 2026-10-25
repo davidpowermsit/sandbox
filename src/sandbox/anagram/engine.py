@@ -2,17 +2,17 @@ from collections import Counter
 
 
 def find_anagram(name: str, word_list: list[str]) -> list[str]:
-    """Read name and world_list and dispaly all anagrams in name"""
+    """Read name and word_list and dispaly all anagrams in name"""
     name_map = Counter(name)
     anagrams: list[str] = []
 
     for word in word_list:
         test: str = ""
-        world_map = Counter(word.lower())
+        word_map = Counter(word.lower())
         for letter in word:
-            if world_map[letter] <= name_map[letter]:
+            if word_map[letter] <= name_map[letter]:
                 test += letter
-        if Counter(test) == world_map:
+        if Counter(test) == word_map:
             anagrams.append(word)
     print(*anagrams, sep="\n")
 

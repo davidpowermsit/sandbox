@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 def parse_user_input(text: str) -> tuple[int, int, str]:
-    """Finds the operator from the user input which may have negitive values e.g. -1-1 or 1--1"""
+    """Finds the operator from the user input which may have negitive values e.g. -1-1 or 1--1. Once found return two values and opperator"""
 
     for i in range(len(text)):
         if is_operator(text[i]) and has_previous_char(i) and is_previous_char_a_digit(text, i):

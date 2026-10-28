@@ -1,20 +1,29 @@
 from dataclasses import dataclass
 
-OPERATORS = ["+", "-", "*", "/", "~"]
-
 
 def parse_user_input(text: str) -> tuple[int, int, str]:
+    """Finds the operator from the user input which may have negitive values e.g. -1-1 or 1--1"""
 
-    # Step over each character in text
     for i in range(len(text)):
-        # loop also the OPERATORS
-        for op in OPERATORS:
-            if text[i] == op and (i - 1) >= 0 and type(int(text[i - 1])) is int:
-                val1 = text[:i]
-                val2 = text[i + 1 :]
-                return int(val1), int(val2), op
+        if is_operator(text[i]) and has_previous_char(i) and is_previous_char_a_digit(text, i):
+            val1 = int(text[:i])
+            val2 = int(text[i + 1 :])
+            op = text[i]
+            return val1, val2, op
 
     raise ValueError(f"No operator found in {text!r}")
+
+
+def is_operator(char: str) -> bool:
+    return char in ["+", "-", "*", "/", "~"]
+
+
+def has_previous_char(index: int) -> bool:
+    return index > 0
+
+
+def is_previous_char_a_digit(text: str, index: int) -> bool:
+    return text[index - 1].isdigit()
 
 
 @dataclass(frozen=True)

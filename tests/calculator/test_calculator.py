@@ -1,6 +1,14 @@
 import pytest
 
-from sandbox.calculator.calculator import Result, calculate, main, parse_user_input
+from sandbox.calculator.calculator import (
+    Result,
+    calculate,
+    has_previous_char,
+    is_operator,
+    is_previous_char_a_digit,
+    main,
+    parse_user_input,
+)
 
 
 class TestParseUserInput:
@@ -74,6 +82,62 @@ class TestParseUserInput:
         _, _, actual_operator = parse_user_input(test_calc)
 
         assert actual_operator == test_op
+
+    @pytest.mark.parametrize(
+        ("given", "expected"),
+        [
+            ("+", True),
+            ("-", True),
+            ("*", True),
+            ("/", True),
+            ("~", True),
+        ],
+    )
+    def test_is_operator_finds_all_supported(self, given, expected) -> None:
+        actual = is_operator(given)
+        assert actual == expected
+
+    @pytest.mark.parametrize(
+        ("given", "expected"),
+        [
+            ("%", False),
+            ("^", False),
+            ("&", False),
+            ("|", False),
+            ("**", False),
+            ("//", False),
+            ("<<", False),
+            (">>", False),
+        ],
+    )
+    def test_is_operator_rejects_unsupported_supported(self, given, expected) -> None:
+        actual = is_operator(given)
+        assert actual == expected
+
+    @pytest.mark.parametrize(
+        ("given", "expected"),
+        [
+            pytest.param(-1, False, id="negative_position_has_no_previous_char"),
+            pytest.param(0, False, id="first_position_has_no_previous_char"),
+            pytest.param(1, True, id="second_position_has_previous_char"),
+            pytest.param(2, True, id="later_position_has_previous_char"),
+            pytest.param(10, True, id="far_position_has_previous_char"),
+        ],
+    )
+    def test_has_previous_char(self, given: int, expected: bool):
+        actual = has_previous_char(given)
+        assert actual == expected
+
+    @pytest.mark.parametrize(
+        ("given", "index", "expected"),
+        [
+            pytest.param("-5+3", 2, True, id="digit_before_operator"),
+            pytest.param("5+-3", 2, False, id="operator_before_sign"),
+        ],
+    )
+    def test_is_previous_char_a_digit_checks_char_before_index(self, given: str, index: int, expected: bool):
+        actual = is_previous_char_a_digit(given, index)
+        assert actual == expected
 
 
 class TestCalculate:

@@ -213,3 +213,6 @@ __marimo__/
 # Python 3.15 profiling (make profile)
 .venv-315/
 profile-*.html
+
+# Colours - Processed Images
+*_processed.*

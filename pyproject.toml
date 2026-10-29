@@ -18,6 +18,9 @@ classifiers = [
     "Programming Language :: Python :: 3.15",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+dependencies = [
+    "pillow>=12.3.0",
+]
 
 [project.urls]
 Homepage = "https://davidpowermsit.github.io/sandbox/"
@@ -26,6 +29,7 @@ Documentation = "https://davidpowermsit.github.io/sandbox/"
 
 [project.scripts]
 anagrams = "sandbox.anagram.program:main"
+colours = "sandbox.colours.stats:main"
 calculator = "sandbox.calculator.calculator:main"
 
 [dependency-groups]

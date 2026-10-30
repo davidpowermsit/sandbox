@@ -1,4 +1,3 @@
-import sys
 from pathlib import Path
 
 from PIL import Image
@@ -50,27 +49,3 @@ def prompt_for_image(images: list[Path]) -> Path | None:
         if selected is not None:
             return selected
         print(f"No image named '{choice.strip()}'. Try again.")
-
-
-def main() -> int:
-    images = list_images(IMAGE_DIR)
-    if not images:
-        print(f"No images found in {IMAGE_DIR.resolve()}")
-        return 1
-
-    selected = prompt_for_image(images)
-    if selected is None:
-        return 0
-
-    img = load_image(selected)
-    result = clear_red(img)
-
-    output = selected.with_name(f"{selected.stem}_processed.png")
-    result.save(output)
-    print(f"Saved {output}")
-
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

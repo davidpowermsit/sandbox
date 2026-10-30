@@ -29,7 +29,7 @@ Documentation = "https://davidpowermsit.github.io/sandbox/"
 
 [project.scripts]
 anagrams = "sandbox.anagram.program:main"
-colours = "sandbox.colours.stats:main"
+photos = "sandbox.photos.main:main"
 calculator = "sandbox.calculator.calculator:main"
 
 [dependency-groups]

@@ -8,6 +8,7 @@ width = max(len(title) for title in movies) + padding
 
 
 def main() -> None:
+    """Run the menu loop until the user chooses Exit."""
     while True:
         choice = menu()
 
@@ -34,6 +35,7 @@ def main() -> None:
 
 
 def menu() -> int:
+    """Display the menu and return the user's numeric choice."""
     print(f"{' My Movies Database ':~^{width}}")
 
     print("Menu:")
@@ -57,6 +59,7 @@ def menu() -> int:
 
 
 def list_movies(movies: dict[str, float]) -> None:
+    """Print a table of the given movies with a total count."""
     print(f"\n{len(movies)} movies in total.\n")
     print(f"{'Title':<{width}}{'Rating'}")
 
@@ -65,18 +68,21 @@ def list_movies(movies: dict[str, float]) -> None:
 
 
 def add_movie() -> None:
+    """Prompt for a title and rating, then add the movie if it is new."""
     print("\nEnter the Title and Rating for a movie you would like to add.")
     title = input("Title: ").strip()
-    rating = (float)(input("Rating (0-10): "))
+    rating = float(input("Rating (0-10): "))
 
-    try:
-        movies[title] = rating
-        print(f"Movie {title!r} - {rating!r} has been added.")
-    except KeyError:
-        print(f"Could not add a movie called {title!r}")
+    if title in movies:
+        print(f"Movie {title!r} already exists.")
+        return
+
+    movies[title] = rating
+    print(f"Movie {title!r} - {rating!r} has been added.")
 
 
 def delete_movie() -> None:
+    """Prompt for a title and delete that movie if it exists."""
     title = input("\nWhich movie would you like to delete? ").strip()
     try:
         del movies[title]
@@ -86,16 +92,20 @@ def delete_movie() -> None:
 
 
 def update_movie() -> None:
+    """Prompt for a title and new rating, then update the movie if it exists."""
     title = input("Title: ").strip()
-    rating = (float)(input("Rating (0-10): "))
-    try:
-        movies[title] = rating
-        print(f"Movie {title!r} has been updated")
-    except KeyError:
+    rating = float(input("Rating (0-10): "))
+
+    if title not in movies:
         print(f"Could not find a movie called {title!r}")
+        return
+
+    movies[title] = rating
+    print(f"Movie {title!r} has been updated")
 
 
 def stats() -> None:
+    """Print average and median ratings plus the best and worst movies."""
     average_rating = sum(movies.values()) / len(movies)
     median_rating = statistics.median(movies.values())
 
@@ -122,6 +132,7 @@ def stats() -> None:
 
 
 def random_movie() -> None:
+    """Print a randomly chosen movie and its rating."""
     title, rating = random.choice(list(movies.items()))  # noqa: S311
     print()
     print(f"{'Title':<{width}}{'Rating'}")
@@ -130,6 +141,7 @@ def random_movie() -> None:
 
 
 def search_movie() -> None:
+    """Prompt for a term and print movies whose titles contain it."""
     search = input("Enter a search term: ").strip().lower()
     results = {title: rating for title, rating in movies.items() if search in title.lower()}
 

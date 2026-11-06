@@ -1,6 +1,8 @@
 import random
 import statistics
 
+import matplotlib.pyplot as plt
+
 from sandbox.scrapbook.movie_db import bottom_5, movies, ranked_movies, top_5
 
 padding = 2
@@ -30,6 +32,8 @@ def main() -> None:
             case 8:
                 list_movies(ranked_movies)
             case 9:
+                create_histogram()
+            case 10:
                 print(f"{' Program Ended ':~^{width}}")
                 break
 
@@ -48,6 +52,7 @@ def menu() -> int:
         "Random movie",
         "Search movie",
         "Movies sorted by rating",
+        "Create Rating Histogram",
         "Exit",
     ]
 
@@ -153,6 +158,24 @@ def search_movie() -> None:
     else:
         print(f"{'Nothing Found':<{width}}")
     print()
+
+
+def create_histogram() -> None:
+    """Prompt for a file name and save a histogram of the movie ratings to it."""
+    filename = input("\nWhere would you like to save the histogram to? ").strip()
+
+    plt.hist(list(movies.values()), bins=range(11), edgecolor="black")
+    plt.title("Movie Ratings")
+    plt.xlabel("Rating")
+    plt.ylabel("Number of movies")
+
+    try:
+        plt.savefig(filename)
+        print(f"Histogram has been saved to {filename!r}")
+    except (OSError, ValueError):
+        print(f"Could not save the histogram to {filename!r}")
+    finally:
+        plt.close()
 
 
 if __name__ == "__main__":

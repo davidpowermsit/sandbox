@@ -19,6 +19,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
+    "matplotlib>=3.10.9",
     "pillow>=12.3.0",
 ]
 

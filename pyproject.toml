@@ -112,5 +112,8 @@ ignore = [
 "tests/**" = ["S101"]
 "src/sandbox/scrapbook/shake_plays.py" = ["ALL"]
 
+[tool.ruff.lint.mccabe]
+max-complexity = 15
+
 [tool.ruff.format]
 preview = true

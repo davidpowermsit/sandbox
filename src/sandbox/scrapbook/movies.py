@@ -1,0 +1,148 @@
+import random
+import statistics
+
+from sandbox.scrapbook.movie_db import movies, ranked_movies
+
+padding = 2
+width = max(len(title) for title in movies) + padding
+
+
+def main() -> None:
+    while True:
+        choice = menu()
+
+        match choice:
+            case 1:
+                list_movies(movies)
+            case 2:
+                add_movie()
+            case 3:
+                delete_movie()
+            case 4:
+                update_movie()
+            case 5:
+                stats()
+            case 6:
+                random_movie()
+            case 7:
+                search_movie()
+            case 8:
+                list_movies(ranked_movies)
+            case 9:
+                print(f"{' Program Exiting ':~^{width}}")
+                break
+
+
+def menu() -> int:
+    print(f"{' My Movies Database ':~^{width}}")
+
+    print("Menu:")
+    options = [
+        "List movies",
+        "Add movie",
+        "Delete movie",
+        "Update movie",
+        "Stats",
+        "Random movie",
+        "Search movie",
+        "Movies sorted by rating",
+        "Exit",
+    ]
+
+    for index, item in enumerate(options, 1):
+        print(f"{index}. {item}")
+
+    choice = (int)(input(f"Enter choice (1-{len(options)}): ").strip())
+    return choice
+
+
+def list_movies(movies: dict[str, float]) -> None:
+    print(f"\n{len(movies)} movies in total.\n")
+    print(f"{'Title':<{width}}{'Rating'}")
+
+    for title, rating in movies.items():
+        print(f"{title:<{width}}{rating}")
+
+
+def add_movie() -> None:
+    print("\nEnter the Title and Rating for a movie you would like to add.")
+    title = input("Title: ").strip()
+    rating = (float)(input("Rating (0-10): "))
+
+    try:
+        movies[title] = rating
+        print(f"Movie {title!r} - {rating!r} has been added.")
+    except KeyError:
+        print(f"Could not add a movie called {title!r}")
+
+
+def delete_movie() -> None:
+    title = input("\nWhich movie would you like to delete? ").strip()
+    try:
+        del movies[title]
+        print(f"Movie {title!r} has been deleted")
+    except KeyError:
+        print(f"Could not find a movie called {title!r}")
+
+
+def update_movie() -> None:
+    title = input("Title: ").strip()
+    rating = (float)(input("Rating (0-10): "))
+    try:
+        movies[title] = rating
+        print(f"Movie {title!r} has been updated")
+    except KeyError:
+        print(f"Could not find a movie called {title!r}")
+
+
+def stats() -> None:
+    average_rating = sum(movies.values()) / len(movies)
+    median_rating = statistics.median(movies.values())
+
+    best_movies = _find_best_movies()
+    worst_movies = _find_worst_movies()
+
+    print(f"{' Movie Stats ':~^{width}}")
+
+    print(f"Average Movie Rating: {average_rating:.2f}")
+    print(f"Median Movie Rating: {median_rating:.2f}")
+
+    print(f"{' Best Movie(s) ':-^{width}}")
+    if best_movies:
+        print(f"{'Title':<{width}}{'Rating'}")
+        for title, rating in best_movies.items():
+            print(f"{title:<{width}}{rating}")
+    else:
+        print(f"{' None ':-^{width}}")
+
+    print(f"{' Worset Movie(s) ':-^{width}}")
+    if worst_movies:
+        print(f"{'Title':<{width}}{'Rating'}")
+        for title, rating in worst_movies.items():
+            print(f"{title:<{width}}{rating}")
+    else:
+        print(f"{' None ':-^{width}}")
+
+
+def random_movie() -> None:
+    title, rating = random.choice(list(movies.items()))  # noqa: S311
+    print()
+    print(f"{'Title':<{width}}{'Rating'}")
+    print(f"{title:<{width}}{rating}")
+    print()
+
+
+def search_movie() -> None:
+    pass
+
+
+def _find_best_movies() -> dict | None:
+    return None
+
+
+def _find_worst_movies() -> dict | None:
+    return None
+
+
+if __name__ == "__main__":
+    main()

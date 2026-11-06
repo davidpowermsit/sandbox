@@ -1,7 +1,7 @@
 import random
 import statistics
 
-from sandbox.scrapbook.movie_db import movies, ranked_movies
+from sandbox.scrapbook.movie_db import bottom_5, movies, ranked_movies, top_5
 
 padding = 2
 width = max(len(title) for title in movies) + padding
@@ -29,7 +29,7 @@ def main() -> None:
             case 8:
                 list_movies(ranked_movies)
             case 9:
-                print(f"{' Program Exiting ':~^{width}}")
+                print(f"{' Program Ended ':~^{width}}")
                 break
 
 
@@ -99,26 +99,23 @@ def stats() -> None:
     average_rating = sum(movies.values()) / len(movies)
     median_rating = statistics.median(movies.values())
 
-    best_movies = _find_best_movies()
-    worst_movies = _find_worst_movies()
-
     print(f"{' Movie Stats ':~^{width}}")
 
     print(f"Average Movie Rating: {average_rating:.2f}")
     print(f"Median Movie Rating: {median_rating:.2f}")
 
     print(f"{' Best Movie(s) ':-^{width}}")
-    if best_movies:
+    if top_5:
         print(f"{'Title':<{width}}{'Rating'}")
-        for title, rating in best_movies.items():
+        for title, rating in top_5.items():
             print(f"{title:<{width}}{rating}")
     else:
         print(f"{' None ':-^{width}}")
 
-    print(f"{' Worset Movie(s) ':-^{width}}")
-    if worst_movies:
+    print(f"{' Worst Movie(s) ':-^{width}}")
+    if bottom_5:
         print(f"{'Title':<{width}}{'Rating'}")
-        for title, rating in worst_movies.items():
+        for title, rating in bottom_5.items():
             print(f"{title:<{width}}{rating}")
     else:
         print(f"{' None ':-^{width}}")
@@ -133,15 +130,17 @@ def random_movie() -> None:
 
 
 def search_movie() -> None:
-    pass
+    search = input("Enter a search term: ").strip().lower()
+    results = {title: rating for title, rating in movies.items() if search in title.lower()}
 
-
-def _find_best_movies() -> dict | None:
-    return None
-
-
-def _find_worst_movies() -> dict | None:
-    return None
+    print(f"\nFound {len(results)!r} movies.\n")
+    print(f"{'Title':<{width}}{'Rating'}")
+    if results:
+        for title, rating in results.items():
+            print(f"{title:<{width}}{rating}")
+    else:
+        print(f"{'Nothing Found':<{width}}")
+    print()
 
 
 if __name__ == "__main__":

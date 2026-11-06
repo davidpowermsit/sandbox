@@ -1,3 +1,5 @@
+from itertools import islice
+
 movies = {
     "The Shawshank Redemption": 9.5,
     "Pulp Fiction": 8.8,
@@ -101,4 +103,6 @@ movies = {
     "Transformers: Revenge of the Fallen": 6.0,
 }
 
-ranked_movies = dict(sorted(movies.items(), key=lambda item: item[1]))
+ranked_movies = dict(sorted(movies.items(), key=lambda item: item[1], reverse=True))
+top_5 = dict(islice(ranked_movies.items(), 5))
+bottom_5 = dict(islice(reversed(ranked_movies.items()), 5))

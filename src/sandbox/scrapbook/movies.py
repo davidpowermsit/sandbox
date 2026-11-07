@@ -2,11 +2,13 @@ import random
 import statistics
 
 import matplotlib.pyplot as plt
+from rapidfuzz.distance import Levenshtein
 
 from sandbox.scrapbook.movie_db import bottom_5, movies, ranked_movies, top_5
 
 padding = 2
 width = max(len(title) for title in movies) + padding
+FUZZYNESS = 2
 
 
 def main() -> None:
@@ -150,14 +152,23 @@ def search_movie() -> None:
     search = input("Enter a search term: ").strip().lower()
     results = {title: rating for title, rating in movies.items() if search in title.lower()}
 
-    print(f"\nFound {len(results)!r} movies.\n")
+    print(f"\nFound {len(results)!r} movies.")
+    if len(results) == 0:
+        print("The movie you wanted cound not be found. Please consider the following;\n")
+
     print(f"{'Title':<{width}}{'Rating'}")
     if results:
         for title, rating in results.items():
             print(f"{title:<{width}}{rating}")
     else:
-        print(f"{'Nothing Found':<{width}}")
-    print()
+        fuzzy_results = {
+            title: rating for title, rating in movies.items() if Levenshtein.distance(title, search) <= FUZZYNESS
+        }
+        if fuzzy_results:
+            for title, rating in fuzzy_results.items():
+                print(f"{title:<{width}}{rating}")
+        else:
+            print(f"{'Nothing was found. Sorry.':<{width}}\n")
 
 
 def create_histogram() -> None:

@@ -21,6 +21,7 @@ classifiers = [
 dependencies = [
     "matplotlib>=3.10.9",
     "pillow>=12.3.0",
+    "rapidfuzz>=3.14.5",
 ]
 
 [project.urls]

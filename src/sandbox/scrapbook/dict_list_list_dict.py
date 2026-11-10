@@ -1,4 +1,5 @@
 # mypy: disable-error-code="index"
+# Homework Link: https://app.masterschool.com/campus/notion/1a39418319f380bcb030f91b9a5ad76e
 import statistics
 
 # List of dictionaries: Each dictionary represents additional information about a student.

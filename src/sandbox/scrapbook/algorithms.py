@@ -1,3 +1,6 @@
+from collections import Counter
+
+
 class Solution:
     def contains_duplicate(self, nums: list[int]) -> bool:
         return len(set(nums)) != len(nums)
@@ -62,8 +65,8 @@ class GreatestCommonDivisor:
 
 
 class Palindrome:
-    def solution(self) -> bool:
-        return True
+    def solution(self, candidate: int) -> bool:
+        return str(candidate) == str(candidate)[::-1]
 
 
 # 3️⃣
@@ -72,5 +75,7 @@ class Palindrome:
 
 
 class StringPermutations:
-    def solution(self) -> bool:
-        return True
+    def solution(self, a: str, b: str) -> bool:
+        a_dict = Counter(a)
+        b_dict = Counter(b)
+        return a_dict == b_dict

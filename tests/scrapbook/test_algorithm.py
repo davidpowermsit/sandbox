@@ -1,23 +1,23 @@
-from sandbox.scrapbook.algorithms import Solution
+from sandbox.scrapbook.algorithms import GreatestCommonDivisor, Solution
 
 
 class TestDuplicates:
     def test_solution_example_1(self) -> None:
         given: list[int] = [1, 2, 3, 1]
         expected = True
-        actual = Solution().containsDuplicate(given)
+        actual = Solution().contains_duplicate(given)
         assert expected == actual
 
     def test_solution_example_2(self) -> None:
         given: list[int] = [1, 2, 3, 4]
         expected = False
-        actual = Solution().containsDuplicate(given)
+        actual = Solution().contains_duplicate(given)
         assert expected == actual
 
     def test_solution_example_3(self) -> None:
         given: list[int] = [1, 1, 1, 3, 3, 4, 3, 2, 4, 2]
         expected = True
-        actual = Solution().containsDuplicate(given)
+        actual = Solution().contains_duplicate(given)
         assert expected == actual
 
     def test_solution_example_4(self) -> None:
@@ -54524,5 +54524,14 @@ class TestDuplicates:
             29999,
         ]
         expected = False
-        actual = Solution().containsDuplicate(given)
+        actual = Solution().contains_duplicate(given)
+        assert expected == actual
+
+
+class TestGreatestCommonDivisor:
+    def test_solution(self) -> None:
+        given_a = 1750
+        given_b = 42
+        expected = 14
+        actual = GreatestCommonDivisor().solution(given_a, given_b)
         assert expected == actual

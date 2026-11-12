@@ -102,6 +102,8 @@ select = [
     "RUF",
     # tryceratops
     "TRY",
+    # pep8-naming
+    "N",
 ]
 ignore = [
     # LineTooLong

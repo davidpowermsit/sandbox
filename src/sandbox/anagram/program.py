@@ -6,8 +6,8 @@ from sandbox.anagram.file_utility import load_dictionary
 
 
 def main() -> None:
-    WORDS_FILE = Path(__file__).parent / "words.txt"
-    WORDS = load_dictionary(WORDS_FILE)
+    word_file = Path(__file__).parent / "words.txt"
+    words = load_dictionary(word_file)
 
     running = True
 
@@ -26,7 +26,7 @@ def main() -> None:
             if tp_len > 0:
                 print(f"Lenght of anagram phrase: {tp_len}")
 
-            find_anagram(name, WORDS)
+            find_anagram(name, words)
 
             if len(temp_prase) > 0:
                 print(f"Current anagram phrase is: {phrase}")

@@ -4,7 +4,7 @@ import statistics
 import matplotlib.pyplot as plt
 from rapidfuzz.distance import Levenshtein
 
-from sandbox.scrapbook.movie_db import bottom_5, movies, ranked_movies, top_5
+from sandbox.scrapbook.movie_Project.movie_db import movies, ranked_movies
 
 padding = 2
 width = max(len(title) for title in movies) + padding
@@ -115,6 +115,11 @@ def stats() -> None:
     """Print average and median ratings plus the best and worst movies."""
     average_rating = sum(movies.values()) / len(movies)
     median_rating = statistics.median(movies.values())
+    top_rating = max(ranked_movies.values())
+    bottom_rating = min(ranked_movies.values())
+
+    top_5 = {title: rating for title, rating in ranked_movies.items() if rating == top_rating}
+    bottom_5 = {title: rating for title, rating in ranked_movies.items() if rating == bottom_rating}
 
     print(f"{' Movie Stats ':~^{width}}")
 
@@ -162,7 +167,9 @@ def search_movie() -> None:
             print(f"{title:<{width}}{rating}")
     else:
         fuzzy_results = {
-            title: rating for title, rating in movies.items() if Levenshtein.distance(title, search) <= FUZZYNESS
+            title: rating
+            for title, rating in movies.items()
+            if Levenshtein.distance(title.lower(), search) <= FUZZYNESS
         }
         if fuzzy_results:
             for title, rating in fuzzy_results.items():

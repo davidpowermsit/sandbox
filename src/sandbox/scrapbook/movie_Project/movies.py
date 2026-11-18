@@ -4,7 +4,7 @@ import statistics
 import matplotlib.pyplot as plt
 from rapidfuzz.distance import Levenshtein
 
-from sandbox.scrapbook.movie_Project.movie_db import Movie, load_movies
+from sandbox.scrapbook.movie_Project import movie_storage
 
 PADDING = 22
 WIDTH = 47
@@ -13,8 +13,8 @@ FUZZYNESS = 2
 
 def main() -> None:
     """Run the menu loop until the user chooses Exit."""
-    movies = load_movies()
     while True:
+        movies = movie_storage.get_movies()
         choice = menu()
 
         match choice:
@@ -66,7 +66,7 @@ def menu() -> int:
     return choice
 
 
-def list_movies(movie_list: list[Movie], ranked: bool = False) -> None:
+def list_movies(movie_list: list[movie_storage.Movie], ranked: bool = False) -> None:
     """Print a table of the given movies with a total count."""
     if ranked:
         movie_list = sort_movies_by_rating(movie_list)
@@ -78,7 +78,7 @@ def list_movies(movie_list: list[Movie], ranked: bool = False) -> None:
         print(f"{m.title:<{WIDTH}}{m.rating:<6} {m.year}")
 
 
-def add_movie(movie_list: list[Movie]) -> None:
+def add_movie(movie_list: list[movie_storage.Movie]) -> None:
     """Prompt for a title and rating, then add the movie if it is new."""
     print("\nEnter the Title and Rating for a movie you would like to add.")
     title = input("Title: ").strip()
@@ -89,40 +89,37 @@ def add_movie(movie_list: list[Movie]) -> None:
         print(f"Movie {title!r} already exists.")
         return
 
-    movie_list.append(Movie(title=title, rating=rating, year=year))
+    movie_storage.add_movie(title, year, rating)
     print(f"Movie {title!r} - {rating!r} has been added.")
 
 
-def delete_movie(movie_list: list[Movie]) -> None:
+def delete_movie(movie_list: list[movie_storage.Movie]) -> None:
     """Prompt for a title and delete that movie if it exists."""
     title = input("\nWhich movie would you like to delete? ").strip()
 
     movie = next((m for m in movie_list if m.title.lower() == title.lower()), None)
     if movie is not None:
-        movie_list.remove(movie)
+        movie_storage.delete_movie(movie.title)
         print(f"Movie {title!r} has been deleted")
     else:
         print(f"No movie titled {title!r}")
 
 
-def update_movie(movie_list: list[Movie]) -> None:
+def update_movie(movie_list: list[movie_storage.Movie]) -> None:
     """Prompt for a title and new rating, then update the movie if it exists."""
     title = input("Title: ").strip()
     rating = float(input("Rating (0-10): "))
-    year = int(input("Year: "))
 
     movie = next((m for m in movie_list if m.title.lower() == title.lower()), None)
 
     if movie is not None:
-        movie.title = title
-        movie.rating = rating
-        movie.year = year
-        print(f"Movie {title!r} has been updated")
+        movie_storage.update_movie(movie.title, rating)
+        print(f"Movie {movie.title!r} has been updated")
     else:
         print(f"Could not find a movie called {title!r}")
 
 
-def stats(movie_list: list[Movie]) -> None:
+def stats(movie_list: list[movie_storage.Movie]) -> None:
     """Print average and median ratings plus the best and worst movies."""
     average_rating = sum([m.rating for m in movie_list]) / len(movie_list)
     median_rating = statistics.median([m.rating for m in movie_list])
@@ -149,15 +146,14 @@ def stats(movie_list: list[Movie]) -> None:
 
     print(f"{' Worst Movie(s) ':-^{WIDTH + PADDING}}")
     if bottom_movies:
-        print(f"{m.title:<{WIDTH}}{m.rating:<6} {m.year}")
-
+        print(f"{'Title':<{WIDTH}}{'Rating':<6} {'Year'}")
         for m in bottom_movies:
             print(f"{m.title:<{WIDTH}}{m.rating:<6} {m.year}")
     else:
         print(f"{' None ':-^{WIDTH + PADDING}}")
 
 
-def random_movie(movie_list: list[Movie]) -> None:
+def random_movie(movie_list: list[movie_storage.Movie]) -> None:
     """Print a randomly chosen movie and its rating."""
     m = random.choice(movie_list)  # noqa: S311
     print()
@@ -166,7 +162,7 @@ def random_movie(movie_list: list[Movie]) -> None:
     print()
 
 
-def search_movie(movie_list: list[Movie]) -> None:
+def search_movie(movie_list: list[movie_storage.Movie]) -> None:
     """Prompt for a term and print movies whose titles contain it."""
     search = input("Enter a search term: ").strip().lower()
     results = [m for m in movie_list if search in m.title.lower()]
@@ -188,7 +184,7 @@ def search_movie(movie_list: list[Movie]) -> None:
             print(f"{'Nothing was found. Sorry.':<{WIDTH}}\n")
 
 
-def create_histogram(movie_list: list[Movie]) -> None:
+def create_histogram(movie_list: list[movie_storage.Movie]) -> None:
     """Prompt for a file name and save a histogram of the movie ratings to it."""
     filename = input("\nWhere would you like to save the histogram to? ").strip()
     ratings = [m.rating for m in movie_list]
@@ -206,12 +202,12 @@ def create_histogram(movie_list: list[Movie]) -> None:
         plt.close()
 
 
-def movie_exists(movie_list: list[Movie], title: str) -> bool:
+def movie_exists(movie_list: list[movie_storage.Movie], title: str) -> bool:
     """Using a generator with any, will return True as soon as a film is found"""
     return any(m.title.lower() == title.lower() for m in movie_list)
 
 
-def sort_movies_by_rating(movie_list: list[Movie]) -> list[Movie]:
+def sort_movies_by_rating(movie_list: list[movie_storage.Movie]) -> list[movie_storage.Movie]:
     """Return the movies sorted by rating, highest first."""
     return sorted(movie_list, key=lambda m: m.rating, reverse=True)
 

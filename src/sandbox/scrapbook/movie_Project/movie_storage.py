@@ -32,6 +32,9 @@ def get_movies() -> list[Movie]:
     file and returns the data.
     """
 
+    if not MOVIE_FILE.exists():
+        return []
+
     with MOVIE_FILE.open() as f:
         movies = cast("dict[str, MovieInfo]", json.load(f))
 

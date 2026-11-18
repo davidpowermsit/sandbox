@@ -402,5 +402,9 @@
   "Cats 2": {
     "rating": 10.0,
     "year": 1999
+  },
+  "Cats 3": {
+    "rating": 9.0,
+    "year": 2000
   }
 }

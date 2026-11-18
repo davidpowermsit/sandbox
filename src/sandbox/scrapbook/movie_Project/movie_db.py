@@ -18,7 +18,7 @@ class MovieInfo(TypedDict):
     year: int
 
 
-movie_import: dict[str, MovieInfo] = {
+MOVIE_IMPORT: dict[str, MovieInfo] = {
     "The Shawshank Redemption": {"rating": 9.5, "year": 1994},
     "Pulp Fiction": {"rating": 8.8, "year": 1994},
     "The Room": {"rating": 3.6, "year": 2003},
@@ -121,4 +121,6 @@ movie_import: dict[str, MovieInfo] = {
     "Transformers: Revenge of the Fallen": {"rating": 6.0, "year": 2009},
 }
 
-movies = [Movie(title=t, **info) for t, info in movie_import.items()]
+
+def load_movies() -> list[Movie]:
+    return [Movie(title=t, **info) for t, info in MOVIE_IMPORT.items()]

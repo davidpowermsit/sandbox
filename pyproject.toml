@@ -54,6 +54,7 @@ packages = ["src/sandbox"]
 
 [tool.mypy]
 files = ["src"]
+mypy_path = "src"
 disallow_untyped_defs = true
 disallow_any_unimported = true
 no_implicit_optional = true

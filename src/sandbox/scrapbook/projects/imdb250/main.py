@@ -1,4 +1,4 @@
-from sandbox.scrapbook.imdb250.database import dennys_movies
+from sandbox.scrapbook.projects.imdb250.database import dennys_movies
 
 DB = dennys_movies
 

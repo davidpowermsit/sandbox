@@ -1,6 +1,6 @@
 import pytest
 
-from sandbox.scrapbook.summer_time import main
+from sandbox.scrapbook.python_basics.summer_time import main
 
 
 class TestSummerTime:

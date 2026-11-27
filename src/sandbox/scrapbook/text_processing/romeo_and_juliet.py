@@ -1,6 +1,6 @@
 from collections import Counter
 
-from sandbox.scrapbook.shake_plays import PLAY
+from sandbox.scrapbook.text_processing.shake_plays import PLAY
 
 
 def main() -> None:

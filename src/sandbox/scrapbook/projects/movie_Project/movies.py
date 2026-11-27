@@ -6,7 +6,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from rapidfuzz.distance import Levenshtein
 
-from sandbox.scrapbook.movie_Project import movie_storage
+from sandbox.scrapbook.projects.movie_Project import movie_storage
 
 PADDING = 22
 WIDTH = 47

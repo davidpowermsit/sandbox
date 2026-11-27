@@ -1,4 +1,4 @@
-from sandbox.scrapbook.algorithms import GreatestCommonDivisor, Solution
+from sandbox.scrapbook.algorithms.algorithms import GreatestCommonDivisor, Solution
 
 
 class TestDuplicates:

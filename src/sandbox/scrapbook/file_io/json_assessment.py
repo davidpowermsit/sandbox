@@ -8,11 +8,22 @@ print("Chapter Assessment - JSON\n")
 # --------------------------------------------------------------------------
 print("Question 1 - \n")
 
-with open(DATA_DIR / "grades.json") as grades_file:
-    students = json.load(grades_file)  # list[dict]
+try:
+    with open(DATA_DIR / "grades.json") as grades_file:
+        students = json.load(grades_file)  # list[dict]
+except FileNotFoundError:
+    print("grades.json not found")
+    students = []
+except json.JSONDecodeError as err:
+    print(f"grades.json is not valid JSON: {err}")
+    students = []
 
 for student in students:
     grades = student["grades"]
+
+    if not grades:
+        print(f"{student['name']} has no grades\n")
+        continue
 
     average = statistics.mean(grades)
     low = min(grades)
@@ -33,7 +44,11 @@ for student in students:
         "highest": high,
     })
 
-with open(DATA_DIR / "grades_analysis.json", "w") as grade_obj:
-    json.dump(student_analytics, grade_obj)
+try:
+    with open(DATA_DIR / "grades_analysis.json", "w") as grade_obj:
+        json.dump(student_analytics, grade_obj)
+except PermissionError:
+    print("No permission to write grades_analysis.json")
+
 # --------------------------------------------------------------------------
 print("Question 3 - \n")
